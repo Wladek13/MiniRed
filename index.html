@@ -189,12 +189,23 @@
       </div>
     </div>
 
+    <div class="panel" style="grid-column:1 / -1;">
+      <div class="panel-title"><h2>Cobertura y rotación de stock (Misión 2 — Cube Master)</h2><span class="note" id="cubeMasterNote">Sucursal × Producto — ordenado por índice de rotación</span></div>
+      <table>
+        <thead><tr>
+          <th>Sucursal</th><th>Zona</th><th>Producto</th><th>Categoría</th>
+          <th class="num">Stock prom.</th><th class="num">Índice rotación</th><th class="num">Cobertura (días)</th>
+        </tr></thead>
+        <tbody id="cubeMasterBody"></tbody>
+      </table>
+    </div>
+
     <div class="panel">
       <div class="panel-title"><h2>Riesgo de quiebre por zona</h2><span class="note">% de observaciones con stock = 0</span></div>
       <canvas id="chartZona" height="150"></canvas>
     </div>
     <div class="panel">
-      <div class="panel-title"><h2>Alertas críticas</h2><span class="note" id="alertCount"></span></div>
+      <div class="panel-title"><h2>Alertas críticas (Misión 4 — Alertas Operativas)</h2><span class="note" id="alertCount"></span></div>
       <div class="alert-list" id="alertList"></div>
     </div>
 
@@ -203,7 +214,7 @@
       <canvas id="chartCategoria" height="190"></canvas>
     </div>
     <div class="panel">
-      <div class="panel-title"><h2>Propias vs. franquicias</h2><span class="note">% quiebre / cobertura días</span></div>
+      <div class="panel-title"><h2>Propias vs. franquicias</h2><span class="note">% quiebre / stock promedio</span></div>
       <canvas id="chartTipo" height="190"></canvas>
     </div>
 
@@ -236,124 +247,120 @@ const DATA = {
     "sucursales_activas": 13,
     "sucursales_totales": 14,
     "skus_monitoreados": 41,
-    "quiebre_promedio_pct": 18.4,
-    "cobertura_promedio_dias": 7.6,
-    "alertas_criticas": 68
+    "quiebre_promedio_pct": 0.9,
+    "zona_mas_quiebres": "Zona Oeste",
+    "zona_mas_quiebres_count": 90,
+    "cobertura_promedio_dias": 94.3,
+    "rotacion_promedio": 0.65
   },
   "quiebre_por_zona": [
     {
-      "zona": "Zona Oeste",
-      "quiebre_pct": 23.9,
-      "cobertura": 6.9
+      "zona": "CABA",
+      "observaciones": 7503,
+      "dias_quiebre": 70,
+      "quiebre_pct": 0.9
     },
     {
-      "zona": "Zona Norte",
-      "quiebre_pct": 18.8,
-      "cobertura": 7.3
+      "zona": "Zona Oeste",
+      "observaciones": 10004,
+      "dias_quiebre": 90,
+      "quiebre_pct": 0.9
     },
     {
       "zona": "Zona Sur",
-      "quiebre_pct": 15.4,
-      "cobertura": 7.9
+      "observaciones": 7503,
+      "dias_quiebre": 66,
+      "quiebre_pct": 0.9
     },
     {
-      "zona": "CABA",
-      "quiebre_pct": 13.5,
-      "cobertura": 8.4
+      "zona": "Zona Norte",
+      "observaciones": 7503,
+      "dias_quiebre": 57,
+      "quiebre_pct": 0.8
     }
   ],
   "quiebre_por_tipo": [
     {
-      "tipo": "Sucursal propia",
-      "quiebre_pct": 16.0,
-      "cobertura": 7.9
+      "tipo": "Franquicia",
+      "quiebre_pct": 0.9,
+      "stock_promedio": 59.47
     },
     {
-      "tipo": "Franquicia",
-      "quiebre_pct": 26.1,
-      "cobertura": 6.4
+      "tipo": "Sucursal propia",
+      "quiebre_pct": 0.9,
+      "stock_promedio": 59.53
     }
   ],
   "top_riesgo_quiebre": [
     {
-      "producto": "Lavandina Ayudín 1L",
-      "categoria": "Lavandina y desinfectantes",
-      "rubro": "Limpieza",
-      "riesgo_pct": 37.1,
-      "demanda": 3.68,
-      "cobertura": 5.9
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "rubro": "Consumo Masivo",
+      "riesgo_pct": 1.5,
+      "stock_promedio": 58.6
+    },
+    {
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "riesgo_pct": 1.3,
+      "stock_promedio": 60.32
+    },
+    {
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "riesgo_pct": 1.3,
+      "stock_promedio": 60.76
+    },
+    {
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "rubro": "Consumo Masivo",
+      "riesgo_pct": 1.3,
+      "stock_promedio": 61.18
+    },
+    {
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "rubro": "Perfumería",
+      "riesgo_pct": 1.3,
+      "stock_promedio": 57.03
+    },
+    {
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "rubro": "Consumo Masivo",
+      "riesgo_pct": 1.3,
+      "stock_promedio": 61.38
     },
     {
       "producto": "Gaseosa Coca-Cola 2.25L",
       "categoria": "Gaseosas",
       "rubro": "Bebidas",
-      "riesgo_pct": 31.7,
-      "demanda": 4.47,
-      "cobertura": 5.3
+      "riesgo_pct": 1.1,
+      "stock_promedio": 59.93
     },
     {
-      "producto": "Galletitas Rhodesia 187g",
-      "categoria": "Galletitas y snacks",
-      "rubro": "Consumo Masivo",
-      "riesgo_pct": 31.7,
-      "demanda": 4.28,
-      "cobertura": 5.7
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "rubro": "Perfumería",
+      "riesgo_pct": 1.1,
+      "stock_promedio": 57.61
     },
     {
-      "producto": "Queso de máquina Cotto 200g",
-      "categoria": "Fiambres",
-      "rubro": "Consumo Masivo",
-      "riesgo_pct": 31.4,
-      "demanda": 4.37,
-      "cobertura": 6.2
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "rubro": "Limpieza",
+      "riesgo_pct": 1.1,
+      "stock_promedio": 58.34
     },
     {
-      "producto": "Gaseosa Sprite 2.25L",
-      "categoria": "Gaseosas",
-      "rubro": "Bebidas",
-      "riesgo_pct": 26.5,
-      "demanda": 3.73,
-      "cobertura": 8.0
-    },
-    {
-      "producto": "Leche entera La Serenísima 1L",
-      "categoria": "Lácteos",
-      "rubro": "Consumo Masivo",
-      "riesgo_pct": 26.2,
-      "demanda": 5.6,
-      "cobertura": 6.0
-    },
-    {
-      "producto": "Yogur bebible Yogurísimo 900g",
-      "categoria": "Lácteos",
-      "rubro": "Consumo Masivo",
-      "riesgo_pct": 26.1,
-      "demanda": 4.48,
-      "cobertura": 6.3
-    },
-    {
-      "producto": "Mayonesa Hellmann's 475g",
-      "categoria": "Aceites y aderezos",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
       "rubro": "Almacén",
-      "riesgo_pct": 25.6,
-      "demanda": 4.6,
-      "cobertura": 6.9
-    },
-    {
-      "producto": "Cerveza Stella Artois 473ml",
-      "categoria": "Cervezas",
-      "rubro": "Bebidas",
-      "riesgo_pct": 25.3,
-      "demanda": 5.05,
-      "cobertura": 6.4
-    },
-    {
-      "producto": "Aceite de oliva Nucete 500ml",
-      "categoria": "Aceites y aderezos",
-      "rubro": "Almacén",
-      "riesgo_pct": 25.0,
-      "demanda": 4.58,
-      "cobertura": 7.0
+      "riesgo_pct": 1.1,
+      "stock_promedio": 58.55
     }
   ],
   "abc_resumen": {
@@ -363,314 +370,3303 @@ const DATA = {
   },
   "abc_top": [
     {
-      "producto": "Detergente Ala 500ml",
-      "categoria": "Detergentes",
-      "demanda": 5.1,
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "demanda": 3699,
       "demanda_acum_pct": 2.6,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Leche entera La Serenísima 1L",
+      "categoria": "Lácteos",
+      "demanda": 3647,
+      "demanda_acum_pct": 5.2,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Galletitas Rhodesia 187g",
+      "categoria": "Galletitas y snacks",
+      "demanda": 3618,
+      "demanda_acum_pct": 7.7,
       "clase_abc": "A"
     },
     {
       "producto": "Yogur bebible Yogurísimo 900g",
       "categoria": "Lácteos",
-      "demanda": 5.02,
-      "demanda_acum_pct": 5.2,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Cerveza Stella Artois 473ml",
-      "categoria": "Cervezas",
-      "demanda": 5.02,
-      "demanda_acum_pct": 7.8,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Aceite de girasol Natura 900ml",
-      "categoria": "Aceites y aderezos",
-      "demanda": 4.92,
-      "demanda_acum_pct": 10.4,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Desodorante Axe Aerosol 150ml",
-      "categoria": "Desodorantes",
-      "demanda": 4.92,
-      "demanda_acum_pct": 12.9,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Pan de hamburguesa Fargo x4",
-      "categoria": "Panificados",
-      "demanda": 4.92,
-      "demanda_acum_pct": 15.4,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Detergente Magistral 750ml",
-      "categoria": "Detergentes",
-      "demanda": 4.9,
-      "demanda_acum_pct": 18.0,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Yerba Mate Cruz de Malta 1kg",
-      "categoria": "Yerba y té",
-      "demanda": 4.9,
-      "demanda_acum_pct": 20.5,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Desinfectante Ayudín Aroma 900ml",
-      "categoria": "Lavandina y desinfectantes",
-      "demanda": 4.86,
-      "demanda_acum_pct": 23.0,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Desodorante Rexona Aerosol 150ml",
-      "categoria": "Desodorantes",
-      "demanda": 4.82,
-      "demanda_acum_pct": 25.5,
-      "clase_abc": "A"
-    },
-    {
-      "producto": "Jugo Cepita Naranja 1L",
-      "categoria": "Aguas y jugos",
-      "demanda": 4.8,
-      "demanda_acum_pct": 28.0,
+      "demanda": 3597,
+      "demanda_acum_pct": 10.3,
       "clase_abc": "A"
     },
     {
       "producto": "Facturas surtidas x6",
       "categoria": "Panificados",
-      "demanda": 4.8,
-      "demanda_acum_pct": 30.5,
+      "demanda": 3583,
+      "demanda_acum_pct": 12.8,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "demanda": 3568,
+      "demanda_acum_pct": 15.3,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "demanda": 3563,
+      "demanda_acum_pct": 17.8,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "demanda": 3536,
+      "demanda_acum_pct": 20.3,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Gaseosa Pepsi 2.25L",
+      "categoria": "Gaseosas",
+      "demanda": 3529,
+      "demanda_acum_pct": 22.8,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "demanda": 3509,
+      "demanda_acum_pct": 25.3,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "demanda": 3507,
+      "demanda_acum_pct": 27.8,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Cerveza Brahma lata 473ml",
+      "categoria": "Cervezas",
+      "demanda": 3501,
+      "demanda_acum_pct": 30.2,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "demanda": 3489,
+      "demanda_acum_pct": 32.7,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Gaseosa Sprite 2.25L",
+      "categoria": "Gaseosas",
+      "demanda": 3482,
+      "demanda_acum_pct": 35.2,
       "clase_abc": "A"
     },
     {
       "producto": "Fideos Matarazzo 500g",
       "categoria": "Arroz y fideos",
-      "demanda": 4.8,
-      "demanda_acum_pct": 32.9,
+      "demanda": 3480,
+      "demanda_acum_pct": 37.6,
       "clase_abc": "A"
     },
     {
-      "producto": "Salame Vienissima 200g",
-      "categoria": "Fiambres",
-      "demanda": 4.79,
-      "demanda_acum_pct": 35.4,
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "demanda": 3479,
+      "demanda_acum_pct": 40.1,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "demanda": 3479,
+      "demanda_acum_pct": 42.5,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Papel higiénico Elite x4",
+      "categoria": "Papel higiénico",
+      "demanda": 3476,
+      "demanda_acum_pct": 45.0,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Jabón Dove 90g",
+      "categoria": "Shampoo y jabón",
+      "demanda": 3462,
+      "demanda_acum_pct": 47.4,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "demanda": 3460,
+      "demanda_acum_pct": 49.9,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "demanda": 3456,
+      "demanda_acum_pct": 52.3,
       "clase_abc": "A"
     },
     {
       "producto": "Arroz Gallo Oro 1kg",
       "categoria": "Arroz y fideos",
-      "demanda": 4.78,
-      "demanda_acum_pct": 37.9,
+      "demanda": 3449,
+      "demanda_acum_pct": 54.7,
       "clase_abc": "A"
-    }
-  ],
-  "riesgo_por_categoria": [
-    {
-      "categoria": "Lavandina y desinfectantes",
-      "riesgo_pct": 29.4,
-      "cobertura": 6.4
     },
     {
-      "categoria": "Gaseosas",
-      "riesgo_pct": 25.1,
-      "cobertura": 6.7
-    },
-    {
-      "categoria": "Lácteos",
-      "riesgo_pct": 22.8,
-      "cobertura": 6.5
-    },
-    {
+      "producto": "Aceite de oliva Nucete 500ml",
       "categoria": "Aceites y aderezos",
-      "riesgo_pct": 22.0,
-      "cobertura": 7.4
+      "demanda": 3448,
+      "demanda_acum_pct": 57.2,
+      "clase_abc": "A"
     },
     {
-      "categoria": "Fiambres",
-      "riesgo_pct": 21.4,
-      "cobertura": 7.8
-    },
-    {
-      "categoria": "Galletitas y snacks",
-      "riesgo_pct": 20.6,
-      "cobertura": 6.9
-    },
-    {
-      "categoria": "Cervezas",
-      "riesgo_pct": 18.6,
-      "cobertura": 6.5
-    },
-    {
-      "categoria": "Aguas y jugos",
-      "riesgo_pct": 18.4,
-      "cobertura": 7.6
-    },
-    {
-      "categoria": "Shampoo y jabón",
-      "riesgo_pct": 16.3,
-      "cobertura": 9.3
-    },
-    {
-      "categoria": "Detergentes",
-      "riesgo_pct": 16.3,
-      "cobertura": 7.9
-    },
-    {
-      "categoria": "Panificados",
-      "riesgo_pct": 15.8,
-      "cobertura": 7.3
-    },
-    {
-      "categoria": "Desodorantes",
-      "riesgo_pct": 15.0,
-      "cobertura": 7.5
-    },
-    {
-      "categoria": "Yerba y té",
-      "riesgo_pct": 12.3,
-      "cobertura": 8.7
-    },
-    {
+      "producto": "Polenta Feliciano 500g",
       "categoria": "Arroz y fideos",
-      "riesgo_pct": 10.9,
-      "cobertura": 8.4
+      "demanda": 3440,
+      "demanda_acum_pct": 59.6,
+      "clase_abc": "A"
     },
     {
-      "categoria": "Papel higiénico",
-      "riesgo_pct": 9.5,
-      "cobertura": 8.8
+      "producto": "Aceite de girasol Natura 900ml",
+      "categoria": "Aceites y aderezos",
+      "demanda": 3439,
+      "demanda_acum_pct": 62.0,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Queso de máquina Cotto 200g",
+      "categoria": "Fiambres",
+      "demanda": 3431,
+      "demanda_acum_pct": 64.4,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "demanda": 3430,
+      "demanda_acum_pct": 66.9,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Agua saborizada Levité 1.5L",
+      "categoria": "Aguas y jugos",
+      "demanda": 3426,
+      "demanda_acum_pct": 69.3,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "demanda": 3424,
+      "demanda_acum_pct": 71.7,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "demanda": 3420,
+      "demanda_acum_pct": 74.1,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Pan lactal Bimbo 500g",
+      "categoria": "Panificados",
+      "demanda": 3413,
+      "demanda_acum_pct": 76.5,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "demanda": 3398,
+      "demanda_acum_pct": 78.9,
+      "clase_abc": "A"
+    },
+    {
+      "producto": "Desodorante Axe Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "demanda": 3398,
+      "demanda_acum_pct": 81.3,
+      "clase_abc": "B"
+    },
+    {
+      "producto": "Papas fritas Lays 140g",
+      "categoria": "Galletitas y snacks",
+      "demanda": 3363,
+      "demanda_acum_pct": 83.7,
+      "clase_abc": "B"
+    },
+    {
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "demanda": 3362,
+      "demanda_acum_pct": 86.1,
+      "clase_abc": "B"
+    },
+    {
+      "producto": "Mayonesa Hellmann's 475g",
+      "categoria": "Aceites y aderezos",
+      "demanda": 3349,
+      "demanda_acum_pct": 88.4,
+      "clase_abc": "B"
+    },
+    {
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "demanda": 3338,
+      "demanda_acum_pct": 90.8,
+      "clase_abc": "B"
+    },
+    {
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "demanda": 3328,
+      "demanda_acum_pct": 93.1,
+      "clase_abc": "B"
+    },
+    {
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "demanda": 3315,
+      "demanda_acum_pct": 95.5,
+      "clase_abc": "C"
+    },
+    {
+      "producto": "Cerveza Stella Artois 473ml",
+      "categoria": "Cervezas",
+      "demanda": 3252,
+      "demanda_acum_pct": 97.8,
+      "clase_abc": "C"
+    },
+    {
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "demanda": 3179,
+      "demanda_acum_pct": 100.0,
+      "clase_abc": "C"
     }
   ],
-  "alertas": [
+  "cube_master": [
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "es_franquicia": 1,
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "rubro": "Bebidas",
+      "stock_promedio": 50.49,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 50,
+      "indice_rotacion": 0.99,
+      "dias_cobertura": 60.6
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 58.93,
+      "stock_minimo": 3,
+      "unidades_vendidas_60d": 50,
+      "indice_rotacion": 0.85,
+      "dias_cobertura": 70.7
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "rubro": "Limpieza",
+      "stock_promedio": 59.67,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 50,
+      "indice_rotacion": 0.84,
+      "dias_cobertura": 71.6
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 53.23,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 44,
+      "indice_rotacion": 0.83,
+      "dias_cobertura": 72.6
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "es_franquicia": 1,
+      "producto": "Agua saborizada Levité 1.5L",
+      "categoria": "Aguas y jugos",
+      "rubro": "Bebidas",
+      "stock_promedio": 57.9,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 47,
+      "indice_rotacion": 0.81,
+      "dias_cobertura": 73.9
+    },
     {
       "sucursal": "Tigre",
       "zona": "Zona Norte",
-      "producto": "Agua saborizada Levité 1.5L",
-      "categoria": "Aguas y jugos",
-      "cobertura_dias": 0.5,
-      "prob_quiebre": 90.2
+      "es_franquicia": 1,
+      "producto": "Aceite de oliva Nucete 500ml",
+      "categoria": "Aceites y aderezos",
+      "rubro": "Almacén",
+      "stock_promedio": 54.33,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 43,
+      "indice_rotacion": 0.79,
+      "dias_cobertura": 75.8
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 58.93,
+      "stock_minimo": 4,
+      "unidades_vendidas_60d": 44,
+      "indice_rotacion": 0.75,
+      "dias_cobertura": 80.4
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "rubro": "Bebidas",
+      "stock_promedio": 53.36,
+      "stock_minimo": 7,
+      "unidades_vendidas_60d": 39,
+      "indice_rotacion": 0.73,
+      "dias_cobertura": 82.1
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "rubro": "Perfumería",
+      "stock_promedio": 57.16,
+      "stock_minimo": 6,
+      "unidades_vendidas_60d": 41,
+      "indice_rotacion": 0.72,
+      "dias_cobertura": 83.7
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "es_franquicia": 0,
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 58.26,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 42,
+      "indice_rotacion": 0.72,
+      "dias_cobertura": 83.2
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "rubro": "Limpieza",
+      "stock_promedio": 45.02,
+      "stock_minimo": 3,
+      "unidades_vendidas_60d": 32,
+      "indice_rotacion": 0.71,
+      "dias_cobertura": 84.4
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 58.33,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 41,
+      "indice_rotacion": 0.7,
+      "dias_cobertura": 85.4
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "es_franquicia": 0,
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "rubro": "Bebidas",
+      "stock_promedio": 57,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 40,
+      "indice_rotacion": 0.7,
+      "dias_cobertura": 85.5
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "es_franquicia": 1,
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 52.98,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 37,
+      "indice_rotacion": 0.7,
+      "dias_cobertura": 85.9
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Aceite de girasol Natura 900ml",
+      "categoria": "Aceites y aderezos",
+      "rubro": "Almacén",
+      "stock_promedio": 59.07,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 41,
+      "indice_rotacion": 0.69,
+      "dias_cobertura": 86.4
     },
     {
       "sucursal": "Ituzaingó",
       "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 63.44,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 44,
+      "indice_rotacion": 0.69,
+      "dias_cobertura": 86.5
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "rubro": "Perfumería",
+      "stock_promedio": 58.75,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 40,
+      "indice_rotacion": 0.68,
+      "dias_cobertura": 88.1
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "es_franquicia": 1,
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 55.87,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 38,
+      "indice_rotacion": 0.68,
+      "dias_cobertura": 88.2
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Papas fritas Lays 140g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 55.31,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 37,
+      "indice_rotacion": 0.67,
+      "dias_cobertura": 89.7
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Leche entera La Serenísima 1L",
+      "categoria": "Lácteos",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 59.85,
+      "stock_minimo": 10,
+      "unidades_vendidas_60d": 40,
+      "indice_rotacion": 0.67,
+      "dias_cobertura": 89.8
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 60.67,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 40,
+      "indice_rotacion": 0.66,
+      "dias_cobertura": 91
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "rubro": "Perfumería",
+      "stock_promedio": 51.21,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 34,
+      "indice_rotacion": 0.66,
+      "dias_cobertura": 90.4
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Cerveza Brahma lata 473ml",
+      "categoria": "Cervezas",
+      "rubro": "Bebidas",
+      "stock_promedio": 57.16,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 38,
+      "indice_rotacion": 0.66,
+      "dias_cobertura": 90.3
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "es_franquicia": 1,
+      "producto": "Mayonesa Hellmann's 475g",
+      "categoria": "Aceites y aderezos",
+      "rubro": "Almacén",
+      "stock_promedio": 57.25,
+      "stock_minimo": 3,
+      "unidades_vendidas_60d": 38,
+      "indice_rotacion": 0.66,
+      "dias_cobertura": 90.4
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "rubro": "Limpieza",
+      "stock_promedio": 61.85,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 41,
+      "indice_rotacion": 0.66,
+      "dias_cobertura": 90.5
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 65.44,
+      "stock_minimo": 17,
+      "unidades_vendidas_60d": 43,
+      "indice_rotacion": 0.66,
+      "dias_cobertura": 91.3
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "rubro": "Perfumería",
+      "stock_promedio": 55.72,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.65,
+      "dias_cobertura": 92.9
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "es_franquicia": 1,
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "rubro": "Bebidas",
+      "stock_promedio": 61.08,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 40,
+      "indice_rotacion": 0.65,
+      "dias_cobertura": 91.6
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "rubro": "Limpieza",
+      "stock_promedio": 61.38,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 40,
+      "indice_rotacion": 0.65,
+      "dias_cobertura": 92.1
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "es_franquicia": 0,
+      "producto": "Pan lactal Bimbo 500g",
+      "categoria": "Panificados",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 56.05,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.64,
+      "dias_cobertura": 93.4
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 62.87,
+      "stock_minimo": 4,
+      "unidades_vendidas_60d": 40,
+      "indice_rotacion": 0.64,
+      "dias_cobertura": 94.3
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "es_franquicia": 1,
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "rubro": "Bebidas",
+      "stock_promedio": 59.67,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 38,
+      "indice_rotacion": 0.64,
+      "dias_cobertura": 94.2
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "es_franquicia": 1,
+      "producto": "Leche entera La Serenísima 1L",
+      "categoria": "Lácteos",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 56,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.63,
+      "dias_cobertura": 96
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "es_franquicia": 1,
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "rubro": "Limpieza",
+      "stock_promedio": 56.87,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.63,
+      "dias_cobertura": 94.8
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "es_franquicia": 0,
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 66.62,
+      "stock_minimo": 3,
+      "unidades_vendidas_60d": 42,
+      "indice_rotacion": 0.63,
+      "dias_cobertura": 95.2
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 63.36,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 39,
+      "indice_rotacion": 0.62,
+      "dias_cobertura": 97.5
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "es_franquicia": 0,
+      "producto": "Desodorante Axe Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "rubro": "Perfumería",
+      "stock_promedio": 54.23,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 33,
+      "indice_rotacion": 0.61,
+      "dias_cobertura": 98.6
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "es_franquicia": 1,
+      "producto": "Papel higiénico Elite x4",
+      "categoria": "Papel higiénico",
+      "rubro": "Limpieza",
+      "stock_promedio": 58.74,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.61,
+      "dias_cobertura": 97.9
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "es_franquicia": 1,
+      "producto": "Cerveza Stella Artois 473ml",
+      "categoria": "Cervezas",
+      "rubro": "Bebidas",
+      "stock_promedio": 60.72,
+      "stock_minimo": 3,
+      "unidades_vendidas_60d": 37,
+      "indice_rotacion": 0.61,
+      "dias_cobertura": 98.5
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "es_franquicia": 1,
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 57.41,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.61,
+      "dias_cobertura": 98.4
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 52.48,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 32,
+      "indice_rotacion": 0.61,
+      "dias_cobertura": 98.4
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 52.03,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 31,
+      "indice_rotacion": 0.6,
+      "dias_cobertura": 100.7
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 63.02,
+      "stock_minimo": 8,
+      "unidades_vendidas_60d": 38,
+      "indice_rotacion": 0.6,
+      "dias_cobertura": 99.5
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "rubro": "Limpieza",
+      "stock_promedio": 60.46,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.6,
+      "dias_cobertura": 100.8
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 58.95,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.59,
+      "dias_cobertura": 101.1
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 53.87,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 32,
+      "indice_rotacion": 0.59,
+      "dias_cobertura": 101
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "rubro": "Limpieza",
+      "stock_promedio": 59.16,
+      "stock_minimo": 6,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.59,
+      "dias_cobertura": 101.4
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Galletitas Rhodesia 187g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 55.61,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 33,
+      "indice_rotacion": 0.59,
+      "dias_cobertura": 101.1
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "es_franquicia": 1,
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "rubro": "Perfumería",
+      "stock_promedio": 52.46,
+      "stock_minimo": 4,
+      "unidades_vendidas_60d": 31,
+      "indice_rotacion": 0.59,
+      "dias_cobertura": 101.5
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 60.54,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.59,
+      "dias_cobertura": 100.9
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 55.52,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 32,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 104.1
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 60.33,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 103.4
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 60.43,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 103.6
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 58.18,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 34,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 102.7
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "rubro": "Limpieza",
+      "stock_promedio": 60.31,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 103.4
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Galletitas Rhodesia 187g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 65.77,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 38,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 103.8
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "es_franquicia": 0,
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 67.82,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 39,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 104.3
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "es_franquicia": 1,
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "rubro": "Almacén",
+      "stock_promedio": 62.21,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 103.7
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "es_franquicia": 1,
+      "producto": "Galletitas Rhodesia 187g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 64,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 37,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 103.8
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "rubro": "Almacén",
+      "stock_promedio": 61.79,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 36,
+      "indice_rotacion": 0.58,
+      "dias_cobertura": 103
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 64.85,
+      "stock_minimo": 7,
+      "unidades_vendidas_60d": 37,
+      "indice_rotacion": 0.57,
+      "dias_cobertura": 105.2
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 58,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 33,
+      "indice_rotacion": 0.57,
+      "dias_cobertura": 105.5
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
       "producto": "Agua saborizada Levité 1.5L",
       "categoria": "Aguas y jugos",
-      "cobertura_dias": 0.6,
-      "prob_quiebre": 90.2
+      "rubro": "Bebidas",
+      "stock_promedio": 66.59,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 38,
+      "indice_rotacion": 0.57,
+      "dias_cobertura": 105.1
     },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Cerveza Brahma lata 473ml",
+      "categoria": "Cervezas",
+      "rubro": "Bebidas",
+      "stock_promedio": 61.51,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 35,
+      "indice_rotacion": 0.57,
+      "dias_cobertura": 105.4
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "es_franquicia": 1,
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "rubro": "Bebidas",
+      "stock_promedio": 61.2,
+      "stock_minimo": 1,
+      "unidades_vendidas_60d": 34,
+      "indice_rotacion": 0.56,
+      "dias_cobertura": 108
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "rubro": "Perfumería",
+      "stock_promedio": 57.48,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 32,
+      "indice_rotacion": 0.56,
+      "dias_cobertura": 107.8
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "es_franquicia": 0,
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "rubro": "Consumo Masivo",
+      "stock_promedio": 58.44,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 33,
+      "indice_rotacion": 0.56,
+      "dias_cobertura": 106.3
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "es_franquicia": 0,
+      "producto": "Aceite de oliva Nucete 500ml",
+      "categoria": "Aceites y aderezos",
+      "rubro": "Almacén",
+      "stock_promedio": 55.98,
+      "stock_minimo": 2,
+      "unidades_vendidas_60d": 31,
+      "indice_rotacion": 0.55,
+      "dias_cobertura": 108.4
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "es_franquicia": 0,
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "rubro": "Perfumería",
+      "stock_promedio": 44.02,
+      "stock_minimo": 0,
+      "unidades_vendidas_60d": 24,
+      "indice_rotacion": 0.55,
+      "dias_cobertura": 110
+    }
+  ],
+  "riesgo_por_categoria": [
+    {
+      "categoria": "Yerba y té",
+      "observaciones": 2379,
+      "stock_promedio": 59.23,
+      "riesgo_pct": 1.1
+    },
+    {
+      "categoria": "Panificados",
+      "observaciones": 2379,
+      "stock_promedio": 59.45,
+      "riesgo_pct": 1.1
+    },
+    {
+      "categoria": "Lavandina y desinfectantes",
+      "observaciones": 1586,
+      "stock_promedio": 58.98,
+      "riesgo_pct": 1.0
+    },
+    {
+      "categoria": "Shampoo y jabón",
+      "observaciones": 2379,
+      "stock_promedio": 57.92,
+      "riesgo_pct": 1.0
+    },
+    {
+      "categoria": "Fiambres",
+      "observaciones": 2379,
+      "stock_promedio": 60.1,
+      "riesgo_pct": 1.0
+    },
+    {
+      "categoria": "Galletitas y snacks",
+      "observaciones": 2379,
+      "stock_promedio": 59.89,
+      "riesgo_pct": 0.9
+    },
+    {
+      "categoria": "Detergentes",
+      "observaciones": 1586,
+      "stock_promedio": 59.45,
+      "riesgo_pct": 0.9
+    },
+    {
+      "categoria": "Aguas y jugos",
+      "observaciones": 2379,
+      "stock_promedio": 59.77,
+      "riesgo_pct": 0.9
+    },
+    {
+      "categoria": "Arroz y fideos",
+      "observaciones": 2379,
+      "stock_promedio": 59.63,
+      "riesgo_pct": 0.9
+    },
+    {
+      "categoria": "Lácteos",
+      "observaciones": 2379,
+      "stock_promedio": 59.34,
+      "riesgo_pct": 0.8
+    },
+    {
+      "categoria": "Cervezas",
+      "observaciones": 2379,
+      "stock_promedio": 59.67,
+      "riesgo_pct": 0.8
+    },
+    {
+      "categoria": "Desodorantes",
+      "observaciones": 1586,
+      "stock_promedio": 60.34,
+      "riesgo_pct": 0.7
+    },
+    {
+      "categoria": "Papel higiénico",
+      "observaciones": 1586,
+      "stock_promedio": 59.04,
+      "riesgo_pct": 0.7
+    },
+    {
+      "categoria": "Aceites y aderezos",
+      "observaciones": 2379,
+      "stock_promedio": 60.5,
+      "riesgo_pct": 0.6
+    },
+    {
+      "categoria": "Gaseosas",
+      "observaciones": 2379,
+      "stock_promedio": 59.37,
+      "riesgo_pct": 0.5
+    }
+  ],
+  "alertas": [
     {
       "sucursal": "Lanús",
       "zona": "Zona Sur",
       "producto": "Papas fritas Lays 140g",
       "categoria": "Galletitas y snacks",
-      "cobertura_dias": 0.5,
-      "prob_quiebre": 88.5
+      "stock_promedio": 49.05,
+      "prob_quiebre": 6.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 51.85,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 60.93,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "stock_promedio": 62.02,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "stock_promedio": 56.51,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Galletitas Rhodesia 187g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 62.28,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": null
     },
     {
       "sucursal": "Ituzaingó",
       "zona": "Zona Oeste",
-      "producto": "Galletitas Rhodesia 187g",
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 44.02,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": 110
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Galletitas Oreo 118g",
       "categoria": "Galletitas y snacks",
-      "cobertura_dias": 0.5,
-      "prob_quiebre": 86.9
+      "stock_promedio": 58.44,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": 106.3
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 61.79,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": 103
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 63.39,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Pan lactal Bimbo 500g",
+      "categoria": "Panificados",
+      "stock_promedio": 53,
+      "prob_quiebre": 4.9,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Pan lactal Bimbo 500g",
+      "categoria": "Panificados",
+      "stock_promedio": 60.87,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
     },
     {
       "sucursal": "Quilmes",
       "zona": "Zona Sur",
-      "producto": "Jugo Cepita Naranja 1L",
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "stock_promedio": 56.05,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 56.77,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 61.38,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": 92.1
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "stock_promedio": 62.64,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 58.66,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Agua saborizada Levité 1.5L",
       "categoria": "Aguas y jugos",
-      "cobertura_dias": 0.5,
-      "prob_quiebre": 86.9
+      "stock_promedio": 61.79,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 57.02,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Cerveza Stella Artois 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 63.61,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 59.74,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 56.51,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 61.3,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "stock_promedio": 54.21,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 58.75,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": 88.1
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 59.82,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 57.95,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Desodorante Axe Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 54.23,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": 98.6
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Agua saborizada Levité 1.5L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 56.31,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "stock_promedio": 55.57,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 58.08,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 57.56,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Queso de máquina Cotto 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 58.43,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 54.26,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Jabón Dove 90g",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 54.98,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "stock_promedio": 52.85,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "stock_promedio": 60.67,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": 91
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "stock_promedio": 52.48,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": 98.4
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 50.56,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 52.93,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Cerveza Stella Artois 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 68.93,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 57.08,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 55.54,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Aceite de oliva Nucete 500ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 61.39,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
     },
     {
       "sucursal": "Ramos Mejía",
       "zona": "Zona Oeste",
       "producto": "Arroz Gallo Oro 1kg",
       "categoria": "Arroz y fideos",
-      "cobertura_dias": 1.0,
-      "prob_quiebre": 85.2
+      "stock_promedio": 57.41,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": 98.4
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "stock_promedio": 61.43,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "stock_promedio": 56.41,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 59.69,
+      "prob_quiebre": 3.3,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "stock_promedio": 58.74,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 61.13,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Papel higiénico Elite x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 56.85,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 55.11,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Leche entera La Serenísima 1L",
+      "categoria": "Lácteos",
+      "stock_promedio": 53.36,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "stock_promedio": 52.98,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 85.9
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 48.2,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 62.36,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Queso de máquina Cotto 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 58.3,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 56.28,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 56.28,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 54.75,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 58.21,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 50.95,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 59.95,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 55.64,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 53.87,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 101
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Cerveza Brahma lata 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 60.97,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Papas fritas Lays 140g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 57.77,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Papas fritas Lays 140g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 56.7,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "stock_promedio": 51.89,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 56.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "stock_promedio": 58.8,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Cerveza Brahma lata 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 57.02,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "stock_promedio": 66.33,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 58.18,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 102.7
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Queso de máquina Cotto 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 59.41,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "stock_promedio": 58,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 105.5
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 59.05,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 50.25,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 54.1,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 52.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 100.7
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 53.51,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 63.28,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Leche entera La Serenísima 1L",
+      "categoria": "Lácteos",
+      "stock_promedio": 64.1,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 63.49,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 57.75,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 58.18,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 66.61,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "stock_promedio": 54.75,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 61.2,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Aceite de girasol Natura 900ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 59.07,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 86.4
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 63.44,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 86.5
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Cerveza Brahma lata 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 61.51,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 105.4
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 59.67,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 71.6
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Cerveza Stella Artois 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 58.15,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "stock_promedio": 54.23,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "stock_promedio": 64.54,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 58.93,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Papel higiénico Elite x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 59.61,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Cerveza Stella Artois 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 60.21,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 56.38,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 68.74,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Jabón Dove 90g",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 57.93,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 57.44,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 63.26,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 58.1,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 57.28,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 57.48,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 107.8
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "stock_promedio": 62.43,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Yerba Mate Cruz de Malta 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 58.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "stock_promedio": 60.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 57.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Galletitas Rhodesia 187g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 64.82,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 61.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Queso cremoso La Paulina 500g",
+      "categoria": "Lácteos",
+      "stock_promedio": 59.1,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 65.18,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 50.49,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 60.6
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Mayonesa Hellmann's 475g",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 60.89,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 56.56,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Queso de máquina Cotto 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 59.87,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 47.93,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "stock_promedio": 63.26,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 59.05,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 62.52,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 60.33,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 103.4
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 70.52,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Jabón Dove 90g",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 54.62,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 61.54,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
       "sucursal": "Caballito",
       "zona": "CABA",
       "producto": "Aceite de oliva Nucete 500ml",
       "categoria": "Aceites y aderezos",
-      "cobertura_dias": 9.8,
-      "prob_quiebre": 85.2
+      "stock_promedio": 61.62,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
-      "sucursal": "Morón",
-      "zona": "Zona Oeste",
-      "producto": "Leche entera La Serenísima 1L",
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Yogur bebible Yogurísimo 900g",
       "categoria": "Lácteos",
-      "cobertura_dias": 0.6,
-      "prob_quiebre": 85.2
+      "stock_promedio": 60.11,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
       "sucursal": "San Miguel",
       "zona": "Zona Norte",
-      "producto": "Galletitas Rhodesia 187g",
-      "categoria": "Galletitas y snacks",
-      "cobertura_dias": 0.4,
-      "prob_quiebre": 85.2
+      "producto": "Pan lactal Bimbo 500g",
+      "categoria": "Panificados",
+      "stock_promedio": 59.13,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Papel higiénico Elite x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 61.18,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 67.82,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 104.3
     },
     {
       "sucursal": "Ramos Mejía",
       "zona": "Zona Oeste",
-      "producto": "Pan lactal Bimbo 500g",
-      "categoria": "Panificados",
-      "cobertura_dias": 0.7,
-      "prob_quiebre": 85.2
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 63.8,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
-      "sucursal": "Ituzaingó",
-      "zona": "Zona Oeste",
-      "producto": "Gaseosa Sprite 2.25L",
-      "categoria": "Gaseosas",
-      "cobertura_dias": 1.4,
-      "prob_quiebre": 85.2
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "stock_promedio": 54.46,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "stock_promedio": 61.79,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Agua saborizada Levité 1.5L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 65.18,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Papas fritas Lays 140g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 60.97,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
       "sucursal": "Haedo",
       "zona": "Zona Oeste",
-      "producto": "Galletitas Rhodesia 187g",
-      "categoria": "Galletitas y snacks",
-      "cobertura_dias": 0.7,
-      "prob_quiebre": 85.2
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 64.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 57.49,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Jabón Dove 90g",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 65.7,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Agua saborizada Levité 1.5L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 63.69,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Mayonesa Hellmann's 475g",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 65.39,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 63.44,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "stock_promedio": 53.84,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 56.92,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Agua saborizada Levité 1.5L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 59.31,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "stock_promedio": 60.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 62.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Aceite de girasol Natura 900ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 61.95,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 58.21,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 60.54,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 61.61,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Desinfectante Ayudín Aroma 900ml",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 59.18,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "stock_promedio": 63.69,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Pan lactal Bimbo 500g",
+      "categoria": "Panificados",
+      "stock_promedio": 60.57,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 52.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 58.82,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Mayonesa Hellmann's 475g",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 51.89,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 63.48,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Gaseosa Coca-Cola 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 66.87,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Aceite de girasol Natura 900ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 56.66,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Mayonesa Hellmann's 475g",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 59.8,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "stock_promedio": 55.52,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 104.1
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 65.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "stock_promedio": 60.02,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Caballito",
+      "zona": "CABA",
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 61.85,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 90.5
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Yogur bebible Yogurísimo 900g",
+      "categoria": "Lácteos",
+      "stock_promedio": 54.97,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Gaseosa Sprite 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 53.31,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 58.77,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 57.98,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 61.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Cerveza Brahma lata 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 62.11,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Cerveza Stella Artois 473ml",
+      "categoria": "Cervezas",
+      "stock_promedio": 59.92,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 60.31,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "stock_promedio": 63.67,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 60.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 58.15,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Aceite de oliva Nucete 500ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 57.46,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "stock_promedio": 64.56,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Salame Vienissima 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 57.92,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Papel higiénico Elite x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 54.98,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Aceite de oliva Nucete 500ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 65,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "stock_promedio": 60.61,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 63.75,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Quilmes",
+      "zona": "Zona Sur",
+      "producto": "Pan lactal Bimbo 500g",
+      "categoria": "Panificados",
+      "stock_promedio": 58.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Té en saquitos La Virginia x25",
+      "categoria": "Yerba y té",
+      "stock_promedio": 54.43,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Yerba Mate Playadito 1kg",
+      "categoria": "Yerba y té",
+      "stock_promedio": 58.26,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 83.2
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 65.85,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 58.2,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Detergente Ala 500ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 59.59,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 60.11,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 64.75,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Facturas surtidas x6",
+      "categoria": "Panificados",
+      "stock_promedio": 61.64,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Detergente Magistral 750ml",
+      "categoria": "Detergentes",
+      "stock_promedio": 57.69,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 57.23,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 63.8,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Haedo",
+      "zona": "Zona Oeste",
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 56.64,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Pan de hamburguesa Fargo x4",
+      "categoria": "Panificados",
+      "stock_promedio": 60.41,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Cerveza Quilmes 1L retornable",
+      "categoria": "Cervezas",
+      "stock_promedio": 57.15,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 58.1,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
       "sucursal": "Tigre",
       "zona": "Zona Norte",
       "producto": "Lavandina Ayudín 1L",
       "categoria": "Lavandina y desinfectantes",
-      "cobertura_dias": 0.7,
-      "prob_quiebre": 85.2
+      "stock_promedio": 57.57,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
       "sucursal": "San Miguel",
       "zona": "Zona Norte",
-      "producto": "Aceite de girasol Natura 900ml",
-      "categoria": "Aceites y aderezos",
-      "cobertura_dias": 0.8,
-      "prob_quiebre": 83.6
+      "producto": "Gaseosa Pepsi 2.25L",
+      "categoria": "Gaseosas",
+      "stock_promedio": 60.75,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     },
     {
-      "sucursal": "Caballito",
-      "zona": "CABA",
-      "producto": "Cerveza Brahma lata 473ml",
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Jamón cocido Paladini 200g",
+      "categoria": "Fiambres",
+      "stock_promedio": 59.84,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Galletitas Oreo 118g",
+      "categoria": "Galletitas y snacks",
+      "stock_promedio": 60.51,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Cerveza Stella Artois 473ml",
       "categoria": "Cervezas",
-      "cobertura_dias": 1.2,
-      "prob_quiebre": 83.6
+      "stock_promedio": 55.39,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 60.31,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 103.4
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Jugo Cepita Naranja 1L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 61.08,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 91.6
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Agua mineral Villavicencio 2L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 56.23,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Vicente López",
+      "zona": "Zona Norte",
+      "producto": "Desodorante Axe Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 64.15,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Papel higiénico Higienol x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 64.11,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Avellaneda",
+      "zona": "Zona Sur",
+      "producto": "Fideos Matarazzo 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 55.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "San Miguel",
+      "zona": "Zona Norte",
+      "producto": "Shampoo Head & Shoulders 375ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 59.41,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Morón",
+      "zona": "Zona Oeste",
+      "producto": "Aceite de girasol Natura 900ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 55.82,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Polenta Feliciano 500g",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 53.23,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 72.6
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Lavandina Ayudín 1L",
+      "categoria": "Lavandina y desinfectantes",
+      "stock_promedio": 55.8,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Desodorante Rexona Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 67.03,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ituzaingó",
+      "zona": "Zona Oeste",
+      "producto": "Arroz Gallo Oro 1kg",
+      "categoria": "Arroz y fideos",
+      "stock_promedio": 53.8,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Aceite de girasol Natura 900ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 55.79,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Tigre",
+      "zona": "Zona Norte",
+      "producto": "Aceite de oliva Nucete 500ml",
+      "categoria": "Aceites y aderezos",
+      "stock_promedio": 54.33,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": 75.8
+    },
+    {
+      "sucursal": "Lanús",
+      "zona": "Zona Sur",
+      "producto": "Papel higiénico Elite x4",
+      "categoria": "Papel higiénico",
+      "stock_promedio": 54.9,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Belgrano",
+      "zona": "CABA",
+      "producto": "Agua saborizada Levité 1.5L",
+      "categoria": "Aguas y jugos",
+      "stock_promedio": 64.39,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Palermo",
+      "zona": "CABA",
+      "producto": "Shampoo Sedal 340ml",
+      "categoria": "Shampoo y jabón",
+      "stock_promedio": 46.79,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
+    },
+    {
+      "sucursal": "Ramos Mejía",
+      "zona": "Zona Oeste",
+      "producto": "Desodorante Axe Aerosol 150ml",
+      "categoria": "Desodorantes",
+      "stock_promedio": 62.8,
+      "prob_quiebre": 1.6,
+      "cobertura_dias": null
     }
   ],
   "hallazgo_san_justo": {
     "sucursal": "San Justo",
     "cierre": "2025-08-31",
-    "nota": "No registra filas en Fact_Stock porque la ventana de reposición analizada (últimos 60 días antes del 31/12/2025) es posterior a su cierre. Deterministico por la lógica de generación del DW, no es un patrón de negocio a inferir sino una regla estructural que el modelo debe reconocer y documentar."
+    "ventas_60d_previas_cierre": null,
+    "ventas_totales": 2999,
+    "importe_total_ventas": 3304735.96,
+    "ituzaingo_apertura": "2025-03-01",
+    "ituzaingo_ventas_totales": 1475,
+    "ituzaingo_importe_total_ventas": 1660880.05,
+    "nota": "No registra filas en Fact_Stock porque la ventana de reposición analizada (últimos 60 días antes del 31/12/2025) es posterior a su cierre (31/08/2025). Es una regla estructural del modelo (Preprocesamiento del KDD), no un dato faltante por error de carga."
   },
   "data_audit": {
     "ventana_inicio": "2025-11-01",
@@ -829,14 +3825,29 @@ document.getElementById('sucursalesBody').innerHTML = da.sucursales.map(s=>`
   </tr>`).join('');
 document.getElementById('integridadCount').textContent = da.filas_inconsistentes;
 
+// Cube Master (Misión 2) — cobertura y rotación de stock
+const cubeMaster = DATA.cube_master.slice().sort((a,b)=>b.indice_rotacion-a.indice_rotacion);
+document.getElementById('cubeMasterNote').textContent =
+  `mostrando ${Math.min(15,cubeMaster.length)} de ${cubeMaster.length} combinaciones`;
+document.getElementById('cubeMasterBody').innerHTML = cubeMaster.slice(0,15).map(r=>`
+  <tr>
+    <td>${r.sucursal}${r.es_franquicia?' <span class="tag B" style="font-size:9px;">FRQ</span>':''}</td>
+    <td style="color:var(--muted)">${r.zona}</td>
+    <td>${r.producto}</td>
+    <td style="color:var(--muted)">${r.categoria}</td>
+    <td class="num">${r.stock_promedio}</td>
+    <td class="num">${r.indice_rotacion}</td>
+    <td class="num">${r.dias_cobertura}</td>
+  </tr>`).join('');
+
 // KPIs
 const k = DATA.kpis;
 const kpis = [
   {label:'Sucursales activas', value:k.sucursales_activas, suf:`/ ${k.sucursales_totales}`},
   {label:'SKUs monitoreados', value:k.skus_monitoreados, suf:''},
-  {label:'Quiebre promedio', value:k.quiebre_promedio_pct+'%', suf:'', cls:'warn'},
   {label:'Cobertura promedio', value:k.cobertura_promedio_dias, suf:'días'},
-  {label:'Alertas críticas', value:k.alertas_criticas, suf:'combos', cls:'crit'},
+  {label:'Quiebre promedio (global)', value:k.quiebre_promedio_pct+'%', suf:'', cls:'warn'},
+  {label:'Mayor Nº de quiebres', value:k.zona_mas_quiebres_count, suf:k.zona_mas_quiebres, cls:'crit'},
 ];
 document.getElementById('kpiStrip').innerHTML = kpis.map(x=>`
   <div class="kpi ${x.cls||''}">
@@ -889,7 +3900,7 @@ new Chart(document.getElementById('chartTipo'), {
     labels: DATA.quiebre_por_tipo.map(t=>t.tipo),
     datasets:[
       {label:'% quiebre', data: DATA.quiebre_por_tipo.map(t=>t.quiebre_pct), backgroundColor:'#E8604C', borderRadius:2, maxBarThickness:40},
-      {label:'Cobertura (días)', data: DATA.quiebre_por_tipo.map(t=>t.cobertura), backgroundColor:'#3A4657', borderRadius:2, maxBarThickness:40}
+      {label:'Stock promedio (unid.)', data: DATA.quiebre_por_tipo.map(t=>t.stock_promedio), backgroundColor:'#3A4657', borderRadius:2, maxBarThickness:40}
     ]
   },
   options:{
@@ -898,17 +3909,28 @@ new Chart(document.getElementById('chartTipo'), {
   }
 });
 
-// Alerts
-document.getElementById('alertCount').textContent = DATA.alertas.length + ' combos sucursal · producto';
-document.getElementById('alertList').innerHTML = DATA.alertas.slice(0,10).map(a=>`
-  <div class="alert-row">
-    <div class="sev ${a.prob_quiebre>=65?'high':'mid'}">${a.prob_quiebre}%</div>
-    <div class="alert-body">
-      <div class="prod">${a.producto}</div>
-      <div class="meta">${a.sucursal} · ${a.zona} · ${a.categoria}</div>
-    </div>
-    <div class="cov"><b>${a.cobertura_dias}d</b>cobertura</div>
-  </div>`).join('');
+// Alerts (Misión 4 — Alertas Operativas)
+if (DATA.alertas && DATA.alertas.length) {
+  document.getElementById('alertCount').textContent = DATA.alertas.length + ' combos sucursal · producto (umbral ≥1%)';
+  document.getElementById('alertList').innerHTML = DATA.alertas.slice(0,10).map(a=>`
+    <div class="alert-row">
+      <div class="sev ${a.prob_quiebre>=4?'high':'mid'}">${a.prob_quiebre}%</div>
+      <div class="alert-body">
+        <div class="prod">${a.producto}</div>
+        <div class="meta">${a.sucursal} · ${a.zona} · ${a.categoria}</div>
+      </div>
+      <div class="cov"><b>${a.cobertura_dias!=null ? a.cobertura_dias+'d' : '—'}</b>cobertura</div>
+    </div>`).join('');
+} else {
+  document.getElementById('alertCount').textContent = 'pendiente de ejecutar Misión 4';
+  document.getElementById('alertList').innerHTML = `
+    <div class="alert-row">
+      <div class="alert-body">
+        <div class="prod">Todavía no se cargaron resultados de la consulta de Misión 4 (Alertas Operativas).</div>
+        <div class="meta">Ejecutá esa consulta sobre tu MiniRed_DW y completá DATA.alertas con las filas obtenidas (sucursal, zona, producto, categoría, cobertura_dias, prob_quiebre).</div>
+      </div>
+    </div>`;
+}
 
 // ABC table
 document.getElementById('abcBody').innerHTML = DATA.abc_top.map(p=>`
@@ -922,9 +3944,9 @@ document.getElementById('abcBody').innerHTML = DATA.abc_top.map(p=>`
 
 // Reglas inducidas (texto fijo, alineado a los hallazgos calculados arriba)
 const reglas = [
-  {n:'REGLA 01', t:`<b>Zona Oeste concentra el mayor riesgo de quiebre (${DATA.quiebre_por_zona[0].quiebre_pct}%)</b>, muy por encima de CABA (${DATA.quiebre_por_zona[DATA.quiebre_por_zona.length-1].quiebre_pct}%). Coincide con la zona que absorbió el cierre de San Justo y la apertura reciente de Ituzaingó: la reconfiguración logística todavía no estabilizó sus ciclos de reposición.`},
-  {n:'REGLA 02', t:`<b>Las franquicias quiebran stock casi el doble que las sucursales propias</b> (${DATA.quiebre_por_tipo[1].quiebre_pct}% vs. ${DATA.quiebre_por_tipo[0].quiebre_pct}%). El modelo de reposición centralizado de las sucursales propias amortigua mejor la demanda pico que el esquema de compra del franquiciado.`},
-  {n:'REGLA 03', t:`<b>El mix de MiniRed no sigue un Pareto clásico 20/80</b>: se necesitan ${DATA.abc_resumen.A} de 41 SKUs (~${Math.round(DATA.abc_resumen.A/41*100)}%) para explicar el 80% de la demanda, porque casi todas las categorías son de consumo masivo de alta frecuencia — no hay pocos productos "estrella" sino una base ancha de básicos.`},
+  {n:'REGLA 01', t:`<b>El riesgo de quiebre es prácticamente uniforme entre zonas (0.8%–0.9%)</b>, muy lejos de lo que sugeriría un problema regional puntual. Zona Oeste concentra el mayor número absoluto de observaciones en quiebre (${DATA.kpis.zona_mas_quiebres_count} de 10.004) simplemente por tener más sucursales monitoreadas, pero su tasa porcentual (0.9%) es igual a la de CABA y Zona Sur. Conclusión: el quiebre de stock responde a una política de reposición homogénea a nivel de toda la cadena, no a fallas logísticas localizadas en una zona.`},
+  {n:'REGLA 02', t:`<b>El esquema de propiedad no explica el quiebre de stock</b>: franquicias y sucursales propias quiebran casi lo mismo (${DATA.quiebre_por_tipo[0].quiebre_pct}% vs. ${DATA.quiebre_por_tipo[1].quiebre_pct}%) y mantienen stocks promedio prácticamente idénticos (${DATA.quiebre_por_tipo[0].stock_promedio} vs. ${DATA.quiebre_por_tipo[1].stock_promedio} unidades). Esto refuta la hipótesis de que el franquiciado gestiona peor su inventario: la reposición parece estar centralizada y es igual de efectiva en ambos modelos.`},
+  {n:'REGLA 03', t:`<b>El mix de MiniRed no sigue un Pareto clásico 20/80</b>: se necesitan ${DATA.abc_resumen.A} de 41 SKUs (~${Math.round(DATA.abc_resumen.A/41*100)}%) para explicar el 80% de la demanda, porque casi todas las categorías son de consumo masivo de alta frecuencia — no hay pocos productos "estrella" sino una base ancha de básicos con rotación pareja.`},
 ];
 document.getElementById('rulesGrid').innerHTML = reglas.map(r=>`
   <div class="rule"><div class="n">${r.n}</div><p>${r.t}</p></div>`).join('');
