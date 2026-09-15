@@ -3780,39 +3780,48 @@ const DATA = {
     "variables": [
       {
         "variable": "CantidadEnStock",
-        "tipo": "Continua"
+        "tipo": "Discreta",
+        "pregunta": "¿Cuántas unidades hay disponibles ahora mismo en esa sucursal para ese producto? — es la variable que define si hay o no quiebre de stock."
       },
       {
         "variable": "ImporteTotal",
-        "tipo": "Continua"
+        "tipo": "Continua",
+        "pregunta": "¿Cuánta plata representa esa venta? — traduce el problema logístico a impacto económico."
       },
       {
         "variable": "CostoUnitario",
-        "tipo": "Continua"
+        "tipo": "Continua",
+        "pregunta": "¿Cuánto cuesta reponer una unidad de ese producto? — permite dimensionar el costo de un quiebre, no solo contarlo."
       },
       {
         "variable": "Cantidad",
-        "tipo": "Continua"
+        "tipo": "Discreta",
+        "pregunta": "¿Cuántas unidades se vendieron en esa operación? — cruzada con CantidadEnStock, es lo que permite calcular el índice de rotación."
       },
       {
         "variable": "Zona",
-        "tipo": "Discreta / Categórica"
+        "tipo": "Categórica",
+        "pregunta": "¿En qué zona geográfica pasa esto? — prueba si el riesgo de quiebre está concentrado en Zona Oeste por el cierre de San Justo y la apertura de Ituzaingó."
       },
       {
         "variable": "EsFinDeSemana",
-        "tipo": "Discreta / Categórica"
+        "tipo": "Categórica",
+        "pregunta": "¿Este día es sábado/domingo? — prueba si hay que anticipar la reposición antes del pico de demanda de fin de semana."
       },
       {
         "variable": "EsFranquicia",
-        "tipo": "Discreta / Categórica"
+        "tipo": "Categórica",
+        "pregunta": "¿Esta sucursal es propia o franquiciada? — prueba si el modelo de reposición (centralizado vs. autogestionado) afecta el riesgo de quiebre."
       },
       {
         "variable": "IdRubro / IdCategoria",
-        "tipo": "Discreta / Categórica"
+        "tipo": "Categórica",
+        "pregunta": "¿A qué familia de productos pertenece? — permite la clasificación ABC y detectar si ciertas categorías rotan más rápido que otras."
       },
       {
         "variable": "TipoPago",
-        "tipo": "Discreta / Categórica"
+        "tipo": "Categórica",
+        "pregunta": "¿Cómo pagó el cliente? — no responde nada relevante para stock/rotación; por eso en la charla anterior la marcamos como la variable \"de sobra\" para esta perspectiva, más propia de una mirada de Ventas/Finanzas."
       }
     ]
   }
@@ -3821,7 +3830,7 @@ const DATA = {
 // Data Audit (Misión 1)
 const da = DATA.data_audit;
 document.getElementById('varsBody').innerHTML = da.variables.map(v=>`
-  <tr><td>${v.variable}</td><td class="num">${v.tipo}</td></tr>`).join('');
+  <tr><td><code>${v.variable}</code></td><td class="num">${v.tipo}</td></tr>`).join('');
 document.getElementById('sucursalesBody').innerHTML = da.sucursales.map(s=>`
   <tr>
     <td>${s.sucursal}</td>
